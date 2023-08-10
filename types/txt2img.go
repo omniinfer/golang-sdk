@@ -70,7 +70,7 @@ const (
 )
 
 type ControlNetUnit struct {
-	Model         string                `json:"types,omitempty"`
+	Model         string                `json:"model,omitempty"`
 	Weight        float32               `json:"weight"`
 	Module        ControlNetModule      `json:"module,omitempty"`
 	InputImage    string                `json:"input_image,omitempty"`

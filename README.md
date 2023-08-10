@@ -64,7 +64,7 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/omniinfer/golang-sdk/model"
+	"github.com/omniinfer/golang-sdk/types"
 	"github.com/omniinfer/golang-sdk/request"
 	"time"
 )
@@ -81,7 +81,7 @@ func main() {
 	defer cancel()
 	modelList, err := client.Models(ctx)
 	if err != nil {
-		fmt.Printf("get types list failed, %v\n", err)
+		fmt.Printf("get model list failed, %v\n", err)
 		return
 	}
 	// Anything V5/Ink, https://civitai.com/models/9409/or-anything-v5ink
@@ -126,10 +126,10 @@ func main() {
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), time.Minute*3)
 	defer cancel()
-	// get all types
+	// get all models
 	modelList, err := client.Models(ctx)
 	if err != nil {
-		fmt.Printf("get types list failed, %v\n", err)
+		fmt.Printf("get model list failed, %v\n", err)
 		return
 	}
 	// top 10 checkpoint

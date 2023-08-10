@@ -18,10 +18,10 @@ func main() {
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), time.Minute*3)
 	defer cancel()
-	// get all types
+	// get all models
 	modelList, err := client.Models(ctx)
 	if err != nil {
-		fmt.Printf("get types list failed, %v\n", err)
+		fmt.Printf("get model list failed, %v\n", err)
 		return
 	}
 	// top 10 checkpoint

@@ -20,7 +20,7 @@ func main() {
 	defer cancel()
 	modelList, err := client.Models(ctx)
 	if err != nil {
-		fmt.Printf("get types list failed, %v\n", err)
+		fmt.Printf("get models list failed, %v\n", err)
 		return
 	}
 	// Anything V5/Ink, https://civitai.com/models/9409/or-anything-v5ink

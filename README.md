@@ -22,8 +22,8 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/omniinfer/golang-sdk/model"
 	"github.com/omniinfer/golang-sdk/request"
+	"github.com/omniinfer/golang-sdk/types"
 	"time"
 )
 
@@ -37,7 +37,7 @@ func main() {
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), time.Minute*3)
 	defer cancel()
-	txt2ImgReq := model.NewTxt2ImgRequest("a dog flying in the sky", "", "AnythingV5_v5PrtRE.safetensors")
+	txt2ImgReq := types.NewTxt2ImgRequest("a dog flying in the sky", "", "AnythingV5_v5PrtRE.safetensors")
 	res, err := client.SyncTxt2img(ctx, txt2ImgReq,
 		request.WithSaveImage("out", 0777, func(taskId string, fileIndex int, fileName string) string {
 			return "test_txt2img_sync.png"
@@ -64,8 +64,8 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/omniinfer/golang-sdk/types"
 	"github.com/omniinfer/golang-sdk/request"
+	"github.com/omniinfer/golang-sdk/types"
 	"time"
 )
 
@@ -81,14 +81,14 @@ func main() {
 	defer cancel()
 	modelList, err := client.Models(ctx)
 	if err != nil {
-		fmt.Printf("get model list failed, %v\n", err)
+		fmt.Printf("get models list failed, %v\n", err)
 		return
 	}
 	// Anything V5/Ink, https://civitai.com/models/9409/or-anything-v5ink
 	modelName := modelList.FilterCivitaiVersionId(90854).SdName
 	// Detail Tweaker LoRA, https://civitai.com/models/58390/detail-tweaker-lora-lora
 	loraName := modelList.FilterCivitaiVersionId(62833).SdName
-	txt2ImgReq := model.NewTxt2ImgRequest(fmt.Sprintf("a dog flying in the sky, <lora:%s:%d>", loraName, 1), "", modelName)
+	txt2ImgReq := types.NewTxt2ImgRequest(fmt.Sprintf("a dog flying in the sky, <lora:%s:%d>", loraName, 1), "", modelName)
 	res, err := client.SyncTxt2img(ctx, txt2ImgReq,
 		request.WithSaveImage("out", 0777, func(taskId string, fileIndex int, fileName string) string {
 			return "test_txt2img_sync.png"
@@ -111,8 +111,8 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/omniinfer/golang-sdk/model"
 	"github.com/omniinfer/golang-sdk/request"
+	"github.com/omniinfer/golang-sdk/types"
 	"time"
 )
 
@@ -133,7 +133,7 @@ func main() {
 		return
 	}
 	// top 10 checkpoint
-	modelList = modelList.FilterType(model.Checkpoint).TopN(10, func(m *model.Model) float32 {
+	modelList = modelList.FilterType(types.Checkpoint).TopN(10, func(m *types.Model) float32 {
 		return m.CivitaiRating
 	})
 	for _, m := range modelList {
@@ -150,8 +150,8 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/omniinfer/golang-sdk/model"
 	"github.com/omniinfer/golang-sdk/request"
+	"github.com/omniinfer/golang-sdk/types"
 	"github.com/omniinfer/golang-sdk/util"
 	"time"
 )
@@ -170,10 +170,10 @@ func main() {
 		fmt.Printf("read image failed, %v\n", err)
 		return
 	}
-	txt2ImgReq := &model.Txt2ImgRequest{
+	txt2ImgReq := &types.Txt2ImgRequest{
 		Prompt:      "a beautify butterfly in the colorful flowers, best quality, best details, masterpiece",
 		ModelName:   "AnythingV5_v5PrtRE.safetensors",
-		SamplerName: model.DPMPPMKarras,
+		SamplerName: types.DPMPPMKarras,
 		BatchSize:   1,
 		NIter:       1,
 		Steps:       30,
@@ -181,14 +181,14 @@ func main() {
 		Height:      512,
 		Width:       512,
 		Seed:        -1,
-		ControlNetUnits: []*model.ControlNetUnit{
+		ControlNetUnits: []*types.ControlNetUnit{
 			{
 				Model:         "control_v1p_sd15_qrcode_monster_v2",
 				Weight:        2.0,
-				Module:        model.None,
+				Module:        types.None,
 				InputImage:    initImageBase64,
-				ControlMode:   model.Balanced,
-				ResizeMode:    model.JustResize,
+				ControlMode:   types.Balanced,
+				ResizeMode:    types.JustResize,
 				GuidanceStart: 0,
 				GuidanceEnd:   1,
 			},
@@ -205,6 +205,7 @@ func main() {
 		fmt.Printf("generate image url: %v\n", s3Url)
 	}
 }
+
 ```
 
 ## Testing

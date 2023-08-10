@@ -8,7 +8,7 @@ const (
 	CodeNormal               = 0  // normal return code
 	CodeInternalError        = -1 // omni internal server error
 	CodeInvalidParam         = 1  // invalid parameter in request
-	CodeModelNotExist        = 2  // model(e.g. checkpoint) not exist
+	CodeModelNotExist        = 2  // types(e.g. checkpoint) not exist
 	CodeTaskIdNotExist       = 3  // task_id not exist
 	CodeInvalidAuth          = 4  // key is invalid
 	CodeParamRangeOutOfLimit = 6  // parameter(e.g. height\size) out of range

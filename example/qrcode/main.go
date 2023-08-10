@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/omniinfer/golang-sdk/model"
 	"github.com/omniinfer/golang-sdk/request"
+	"github.com/omniinfer/golang-sdk/types"
 	"github.com/omniinfer/golang-sdk/util"
 	"time"
 )
@@ -23,10 +23,10 @@ func main() {
 		fmt.Printf("read image failed, %v\n", err)
 		return
 	}
-	txt2ImgReq := &model.Txt2ImgRequest{
+	txt2ImgReq := &types.Txt2ImgRequest{
 		Prompt:      "a beautify butterfly in the colorful flowers, best quality, best details, masterpiece",
 		ModelName:   "AnythingV5_v5PrtRE.safetensors",
-		SamplerName: model.DPMPPMKarras,
+		SamplerName: types.DPMPPMKarras,
 		BatchSize:   1,
 		NIter:       1,
 		Steps:       30,
@@ -34,14 +34,14 @@ func main() {
 		Height:      512,
 		Width:       512,
 		Seed:        -1,
-		ControlNetUnits: []*model.ControlNetUnit{
+		ControlNetUnits: []*types.ControlNetUnit{
 			{
 				Model:         "control_v1p_sd15_qrcode_monster_v2",
 				Weight:        2.0,
-				Module:        model.None,
+				Module:        types.None,
 				InputImage:    initImageBase64,
-				ControlMode:   model.Balanced,
-				ResizeMode:    model.JustResize,
+				ControlMode:   types.Balanced,
+				ResizeMode:    types.JustResize,
 				GuidanceStart: 0,
 				GuidanceEnd:   1,
 			},

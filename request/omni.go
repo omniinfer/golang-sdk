@@ -3,7 +3,7 @@ package request
 import (
 	"context"
 	"errors"
-	"github.com/omniinfer/golang-sdk/model"
+	"github.com/omniinfer/golang-sdk/types"
 	"net/http"
 	"time"
 )
@@ -11,21 +11,21 @@ import (
 // OmniClientInterface define the behavior or OmniClient
 type OmniClientInterface interface {
 	// Txt2Img Asynchronously generate images from request. Returns AsyncResponse, use `task_id` to get Progress.
-	Txt2Img(context.Context, *model.Txt2ImgRequest) (*model.AsyncResponse, error)
+	Txt2Img(context.Context, *types.Txt2ImgRequest) (*types.AsyncResponse, error)
 	// SyncTxt2img Synchronously generate images from request. You can get image url in `Progress.Data.Imgs`.
-	SyncTxt2img(context.Context, *model.Txt2ImgRequest, ...WithGenerateImageOption) (*model.ProgressResponse, error)
+	SyncTxt2img(context.Context, *types.Txt2ImgRequest, ...WithGenerateImageOption) (*types.ProgressResponse, error)
 	// Img2Img  Asynchronously generate images from request. Returns AsyncResponse, use `task_id` to get Progress.
-	Img2Img(context.Context, *model.Img2ImgRequest) (*model.AsyncResponse, error)
+	Img2Img(context.Context, *types.Img2ImgRequest) (*types.AsyncResponse, error)
 	// SyncImg2img Synchronously generate images from request. You can get image url in `Progress.Data.Imgs`.
-	SyncImg2img(context.Context, *model.Img2ImgRequest, ...WithGenerateImageOption) (*model.ProgressResponse, error)
+	SyncImg2img(context.Context, *types.Img2ImgRequest, ...WithGenerateImageOption) (*types.ProgressResponse, error)
 	// Progress Task Progress, use `task_id` to get progress.
-	Progress(context.Context, *model.ProgressRequest, ...WithGenerateImageOption) (*model.ProgressResponse, error)
+	Progress(context.Context, *types.ProgressRequest, ...WithGenerateImageOption) (*types.ProgressResponse, error)
 	// Upscale Asynchronously upscale images from request. Returns AsyncResponse, use `task_id` to get Progress.
-	Upscale(context.Context, *model.Img2ImgRequest) (*model.AsyncResponse, error)
+	Upscale(context.Context, *types.Img2ImgRequest) (*types.AsyncResponse, error)
 	// SyncUpscale Synchronously upscale images from request. You can get image url in `Progress.Data.Imgs`.
-	SyncUpscale(context.Context, *model.Img2ImgRequest, ...WithGenerateImageOption) (*model.ProgressResponse, error)
-	// Models List all models, including checkpoint, lora, vae and other models. Return model info by type.
-	Models(context.Context, ...WithModelOption) (map[model.ModelType]*model.Model, error)
+	SyncUpscale(context.Context, *types.Img2ImgRequest, ...WithGenerateImageOption) (*types.ProgressResponse, error)
+	// Models List all models, including checkpoint, lora, vae and other models. Return types info by type.
+	Models(context.Context, ...WithModelOption) (map[types.ModelType]*types.Model, error)
 }
 
 const BaseURL = "https://api.omniinfer.io/v2"
@@ -33,7 +33,7 @@ const BaseURL = "https://api.omniinfer.io/v2"
 type OmniClient struct {
 	apiKey     string
 	httpCli    *http.Client
-	modelCache model.ModelList
+	modelCache types.ModelList
 }
 
 func NewOmniClient(apiKey string) (*OmniClient, error) {

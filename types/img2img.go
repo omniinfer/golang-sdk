@@ -1,4 +1,4 @@
-package model
+package types
 
 type Img2ImgRequest struct {
 	ModelName              string            `json:"model_name,omitempty"`

@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 	"fmt"
 	omni_error "github.com/omniinfer/golang-sdk/error"
-	"github.com/omniinfer/golang-sdk/model"
+	"github.com/omniinfer/golang-sdk/types"
 	"io"
 	"net/http"
 	"net/url"
@@ -16,15 +16,15 @@ import (
 
 // omniSyncImageGeneration Common omni sync image generation procedure
 func omniSyncImageGeneration[RequestT any](ctx context.Context, request RequestT, opts []WithGenerateImageOption,
-	async func(context.Context, RequestT) (*model.AsyncResponse, error),
-	progress func(context.Context, *model.ProgressRequest, ...WithGenerateImageOption) (*model.ProgressResponse, error)) (*model.ProgressResponse, error) {
+	async func(context.Context, RequestT) (*types.AsyncResponse, error),
+	progress func(context.Context, *types.ProgressRequest, ...WithGenerateImageOption) (*types.ProgressResponse, error)) (*types.ProgressResponse, error) {
 	// execute async generate image function, returns result that contains field `task_id`
 	middleRsp, err := async(ctx, request)
 	if err != nil {
 		return nil, err
 	}
 	// use `task_id` to get images from progress
-	progressRsp, err := progress(ctx, &model.ProgressRequest{
+	progressRsp, err := progress(ctx, &types.ProgressRequest{
 		TaskId: middleRsp.Data.TaskID,
 	}, opts...)
 	if err != nil {
@@ -79,7 +79,7 @@ func newGenerateImageOption(opts ...WithGenerateImageOption) *GenerateImageOptio
 }
 
 // omniRequest Omni common request procedure.
-func omniRequest[RequestT any, ResponseT model.BasicResponse](ctx context.Context, httpCli *http.Client, method, omniApiUrl, apiKey string,
+func omniRequest[RequestT any, ResponseT types.BasicResponse](ctx context.Context, httpCli *http.Client, method, omniApiUrl, apiKey string,
 	query map[string]interface{}, reqObj *RequestT) (*ResponseT, error) {
 	// compare with nil
 	// build url

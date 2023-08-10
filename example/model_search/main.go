@@ -3,8 +3,8 @@ package main
 import (
 	"context"
 	"fmt"
-	"github.com/omniinfer/golang-sdk/model"
 	"github.com/omniinfer/golang-sdk/request"
+	"github.com/omniinfer/golang-sdk/types"
 	"time"
 )
 
@@ -18,14 +18,14 @@ func main() {
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), time.Minute*3)
 	defer cancel()
-	// get all model
+	// get all types
 	modelList, err := client.Models(ctx)
 	if err != nil {
-		fmt.Printf("get model list failed, %v\n", err)
+		fmt.Printf("get types list failed, %v\n", err)
 		return
 	}
 	// top 10 checkpoint
-	modelList = modelList.FilterType(model.Checkpoint).TopN(10, func(m *model.Model) float32 {
+	modelList = modelList.FilterType(types.Checkpoint).TopN(10, func(m *types.Model) float32 {
 		return m.CivitaiRating
 	})
 	for _, m := range modelList {

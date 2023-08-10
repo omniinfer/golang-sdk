@@ -2,14 +2,14 @@ package request
 
 import (
 	"context"
-	"github.com/omniinfer/golang-sdk/model"
+	"github.com/omniinfer/golang-sdk/types"
 	"net/http"
 )
 
-func (c *OmniClient) Models(ctx context.Context, opts ...WithModelOption) (model.ModelList, error) {
+func (c *OmniClient) Models(ctx context.Context, opts ...WithModelOption) (types.ModelList, error) {
 	modelOpt := newModelOption(opts...)
 	if c.modelCache == nil || len(c.modelCache) == 0 || modelOpt.Refresh {
-		responseData, err := omniRequest[*model.ModelRequest, model.ModelsResponse](ctx, c.httpCli, http.MethodGet, BaseURL+"/models", c.apiKey, nil, nil)
+		responseData, err := omniRequest[*types.ModelRequest, types.ModelsResponse](ctx, c.httpCli, http.MethodGet, BaseURL+"/models", c.apiKey, nil, nil)
 		if err != nil {
 			return nil, err
 		}

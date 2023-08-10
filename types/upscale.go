@@ -1,4 +1,4 @@
-package model
+package types
 
 type UpscaleRequest struct {
 	Image                     string            `json:"image"`

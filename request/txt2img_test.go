@@ -2,7 +2,7 @@ package request
 
 import (
 	"context"
-	"github.com/omniinfer/golang-sdk/model"
+	"github.com/omniinfer/golang-sdk/types"
 	"github.com/omniinfer/golang-sdk/util"
 	"os"
 	"testing"
@@ -17,7 +17,7 @@ func TestOmniClient_SyncTxt2Img(t *testing.T) {
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), time.Minute*5)
 	defer cancel()
-	txt2ImgReq := model.NewTxt2ImgRequest("a dog flying in the sky", "", "AnythingV5_v5PrtRE.safetensors")
+	txt2ImgReq := types.NewTxt2ImgRequest("a dog flying in the sky", "", "AnythingV5_v5PrtRE.safetensors")
 	res, err := client.SyncTxt2img(ctx, txt2ImgReq,
 		WithSaveImage("out", 0777, func(taskId string, fileIndex int, fileName string) string {
 			return "test_txt2img_sync.png"
@@ -37,7 +37,7 @@ func TestOmniClient_SyncTxt2ImgWithLora(t *testing.T) {
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), time.Minute*5)
 	defer cancel()
-	txt2ImgReq := model.NewTxt2ImgRequest("a dog flying in the sky, <lora:add_detail_44319:1>", "", "AnythingV5_v5PrtRE.safetensors")
+	txt2ImgReq := types.NewTxt2ImgRequest("a dog flying in the sky, <lora:add_detail_44319:1>", "", "AnythingV5_v5PrtRE.safetensors")
 	res, err := client.SyncTxt2img(ctx, txt2ImgReq,
 		WithSaveImage("out", 0777, func(taskId string, fileIndex int, fileName string) string {
 			return "test_txt2img_sync.png"
@@ -61,9 +61,9 @@ func TestOmniClient_SyncTxt2ImgControlNet(t *testing.T) {
 		t.Error(err)
 		return
 	}
-	txt2ImgReq := model.NewTxt2ImgRequest("a dog flying in the sky", "", "")
-	controlNetReq := model.NewControlNetUnit(model.Canny, "control_v11p_sd15_canny", initImageBase64)
-	txt2ImgReq.ControlNetUnits = []*model.ControlNetUnit{controlNetReq}
+	txt2ImgReq := types.NewTxt2ImgRequest("a dog flying in the sky", "", "")
+	controlNetReq := types.NewControlNetUnit(types.Canny, "control_v11p_sd15_canny", initImageBase64)
+	txt2ImgReq.ControlNetUnits = []*types.ControlNetUnit{controlNetReq}
 	ctx, cancel := context.WithTimeout(context.Background(), time.Minute*5)
 	defer cancel()
 	res, err := client.SyncTxt2img(ctx, txt2ImgReq,

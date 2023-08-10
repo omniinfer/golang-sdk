@@ -2,7 +2,7 @@ package request
 
 import (
 	"context"
-	"github.com/omniinfer/golang-sdk/model"
+	"github.com/omniinfer/golang-sdk/types"
 	"os"
 	"testing"
 	"time"
@@ -23,7 +23,7 @@ func TestOmniClient_Models(t *testing.T) {
 	}
 	// test filtering and sorting
 	t.Log(models)
-	top := models.FilterType(model.Checkpoint).TopN(10, func(m *model.Model) float32 {
+	top := models.FilterType(types.Checkpoint).TopN(10, func(m *types.Model) float32 {
 		return float32(m.CivitaiDownloadCount)
 	})
 	t.Log(top)

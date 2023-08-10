@@ -81,7 +81,7 @@ func main() {
 	defer cancel()
 	modelList, err := client.Models(ctx)
 	if err != nil {
-		fmt.Printf("get model list failed, %v\n", err)
+		fmt.Printf("get types list failed, %v\n", err)
 		return
 	}
 	// Anything V5/Ink, https://civitai.com/models/9409/or-anything-v5ink
@@ -126,10 +126,10 @@ func main() {
 	}
 	ctx, cancel := context.WithTimeout(context.Background(), time.Minute*3)
 	defer cancel()
-	// get all model
+	// get all types
 	modelList, err := client.Models(ctx)
 	if err != nil {
-		fmt.Printf("get model list failed, %v\n", err)
+		fmt.Printf("get types list failed, %v\n", err)
 		return
 	}
 	// top 10 checkpoint
